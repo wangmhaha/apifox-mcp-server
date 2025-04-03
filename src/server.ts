@@ -4,7 +4,7 @@
  * @Author: wangmin
  * @Date: 2025-03-20 17:49:38
  * @LastEditors: wangmin
- * @LastEditTime: 2025-04-03 11:36:04
+ * @LastEditTime: 2025-04-03 14:30:44
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
@@ -36,10 +36,10 @@ export class ApiFoxServer {
       "get-interface",
       "获取apiFox接口信息",
       {
-        moduleIds: z.string().describe("要查询模块id"),
-        moduleNames: z.string().describe("要查询模块名称"),
+        moduleId: z.string().describe("要查询模块id"),
+        moduleName: z.string().describe("要查询模块名称"),
       },
-      async (args: { moduleIds: string; moduleNames: string }) => {
+      async (args: { moduleId: string; moduleName?: string }) => {
         try {
           const response = await fetch(
             `https://api.apifox.com/v1/projects/${projectId}/export-openapi`,
@@ -53,7 +53,7 @@ export class ApiFoxServer {
               body: JSON.stringify({
                 scope: {
                   type: "SELECTED_FOLDERS",
-                  selectedFolderIds: [args.moduleIds],
+                  selectedFolderIds: [args.moduleId],
                   excludedByTags: ["pet"],
                 },
                 options: {
@@ -79,7 +79,7 @@ export class ApiFoxServer {
               content: [
                 {
                   type: "text",
-                  text: `无法找到${args.moduleNames}的接口信息`,
+                  text: `无法找到${args.moduleName}的接口信息`,
                 },
               ],
             };
@@ -90,7 +90,7 @@ export class ApiFoxServer {
               {
                 type: "text",
                 text: `基于openapi3.1.0的规范，${
-                  args.moduleNames
+                  args.moduleName
                 }的接口信息如下: ${JSON.stringify(data)}`,
               },
             ],
