@@ -1,6 +1,6 @@
 {
   "name": "@wangmhaha/apifox-mcp-server",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "main": "build/index.js",
   "type": "module",
   "bin": {

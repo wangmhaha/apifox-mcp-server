@@ -4,7 +4,7 @@
  * @Author: wangmin
  * @Date: 2025-03-20 17:49:38
  * @LastEditors: wangmin
- * @LastEditTime: 2025-03-21 16:11:28
+ * @LastEditTime: 2025-04-03 11:36:04
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
@@ -73,7 +73,6 @@ export class ApiFoxServer {
 
           // 解析响应数据
           const data = await response.json();
-          console.log("获取apiFox接口信息", data);
 
           if (!data) {
             return {
