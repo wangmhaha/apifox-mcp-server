@@ -4,7 +4,7 @@
  * @Author: wangmin
  * @Date: 2025-03-20 14:39:11
  * @LastEditors: wangmin
- * @LastEditTime: 2025-03-21 14:13:40
+ * @LastEditTime: 2025-04-03 10:23:06
 -->
 
 # ApiFox MCP Server
@@ -43,7 +43,7 @@ npx @wangmhaha/apifox-mcp-server --apifox-api-key=<your-apifox-api-key> --projec
 ```javascript
  "apifox-mcp-server": {
     "command": "npx",
-    "args": ["-y", "@wangmhaha/apifox-mcp-server", "--local"],
+    "args": ["-y", "@wangmhaha/apifox-mcp-server@latest", "--local"],
     "env": {
       "APIFOX_API_KEY": "<your-apifox-api-key>",
       "PROJECT_ID": "<your-project-id>"

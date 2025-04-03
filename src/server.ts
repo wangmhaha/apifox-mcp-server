@@ -4,7 +4,7 @@
  * @Author: wangmin
  * @Date: 2025-03-20 17:49:38
  * @LastEditors: wangmin
- * @LastEditTime: 2025-03-21 14:14:49
+ * @LastEditTime: 2025-03-21 16:11:28
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
@@ -14,11 +14,6 @@ import express from "express";
 import { Response, Request } from "express-serve-static-core";
 import { z } from "zod";
 
-export const Logger = {
-  log: (...args: any[]) => {},
-  error: (...args: any[]) => {},
-};
-
 export class ApiFoxServer {
   private readonly server: McpServer;
   private sseTransport: SSEServerTransport | null = null;
@@ -27,6 +22,9 @@ export class ApiFoxServer {
     this.server = new McpServer({
       name: "ApiFox MCP Server",
       version: "1.0.0",
+      capabilities: {
+        notifications: true,
+      },
     });
 
     this.registerTools(apifoxApiKey, projectId);
@@ -38,12 +36,10 @@ export class ApiFoxServer {
       "get-interface",
       "获取apiFox接口信息",
       {
-        moduleIds: z
-          .union([z.string(), z.array(z.string())])
-          .describe("要查询模块id"),
+        moduleIds: z.string().describe("要查询模块id"),
         moduleNames: z.string().describe("要查询模块名称"),
       },
-      async (args: { moduleIds: string | string[]; moduleNames: string }) => {
+      async (args: { moduleIds: string; moduleNames: string }) => {
         try {
           const response = await fetch(
             `https://api.apifox.com/v1/projects/${projectId}/export-openapi`,
@@ -57,9 +53,7 @@ export class ApiFoxServer {
               body: JSON.stringify({
                 scope: {
                   type: "SELECTED_FOLDERS",
-                  selectedFolderIds: Array.isArray(args.moduleIds)
-                    ? args.moduleIds
-                    : [args.moduleIds],
+                  selectedFolderIds: [args.moduleIds],
                   excludedByTags: ["pet"],
                 },
                 options: {
@@ -119,21 +113,7 @@ export class ApiFoxServer {
 
   async connect(transport: Transport): Promise<void> {
     await this.server.connect(transport);
-
-    Logger.log = (...args: any[]) => {
-      this.server.server.sendLoggingMessage({
-        level: "info",
-        data: args,
-      });
-    };
-    Logger.error = (...args: any[]) => {
-      this.server.server.sendLoggingMessage({
-        level: "error",
-        data: args,
-      });
-    };
-
-    Logger.log("服务器已连接并准备处理请求");
+    console.log("服务器已连接并准备处理请求");
   }
 
   async startHttpServer(port: number): Promise<void> {
@@ -145,7 +125,7 @@ export class ApiFoxServer {
         "/messages",
         res as unknown as ServerResponse<IncomingMessage>
       );
-      await this.server.connect(this.sseTransport);
+      await this.connect(this.sseTransport);
     });
 
     app.post("/messages", async (req: Request, res: Response) => {
@@ -159,13 +139,10 @@ export class ApiFoxServer {
       );
     });
 
-    Logger.log = console.log;
-    Logger.error = console.error;
-
     app.listen(port, () => {
-      Logger.log(`HTTP服务器监听端口 ${port}`);
-      Logger.log(`SSE 端点可用于 http://localhost:${port}/sse`);
-      Logger.log(
+      console.log(`HTTP服务器监听端口 ${port}`);
+      console.log(`SSE 端点可用于 http://localhost:${port}/sse`);
+      console.log(
         `消息端点可在以下位置访问： http://localhost:${port}/messages`
       );
     });
