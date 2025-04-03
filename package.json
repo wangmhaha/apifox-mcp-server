@@ -1,6 +1,6 @@
 {
   "name": "@wangmhaha/apifox-mcp-server",
-  "version": "1.6.3",
+  "version": "1.6.5",
   "main": "build/index.js",
   "type": "module",
   "bin": {
@@ -16,6 +16,10 @@
     "build",
     "README.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangmhaha/apifox-mcp-server"
+  },
   "keywords": [],
   "author": "wangmhaha",
   "license": "ISC",

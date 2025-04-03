@@ -4,12 +4,12 @@
  * @Author: wangmin
  * @Date: 2025-03-20 14:39:11
  * @LastEditors: wangmin
- * @LastEditTime: 2025-04-03 10:23:06
+ * @LastEditTime: 2025-04-03 10:33:49
 -->
 
 # ApiFox MCP Server
 
-这是一个基于 Model Context Protocol (MCP) 的 ApiFox 接口服务器，用于获取和管理 ApiFox 的接口信息。
+这是一个基于 Model Context Protocol (MCP) 的 ApiFox 接口服务器，用于获取和管理 ApiFox 的接口信息。通过在 Cursor 中配置 MCP 服务，获取对应接口模块信息返回给大模型，让 Cursor 通过接口信息帮助你实现业务逻辑。
 
 ## 功能特点
 
@@ -22,7 +22,7 @@
 
 ```javascript
 
-npx @wangmhaha/apifox-mcp-server --apifox-api-key=<your-apifox-api-key> --project=<your-project-id>
+npx @wangmhaha/apifox-mcp-server@latest --apifox-api-key=<your-apifox-api-key> --project=<your-project-id>
 
 ```
 
@@ -36,7 +36,7 @@ npx @wangmhaha/apifox-mcp-server --apifox-api-key=<your-apifox-api-key> --projec
   }
 ```
 
-### 或则使用配置文件 JSON 配置
+### 推荐通过使用配置文件 JSON 配置
 
 可以通过在 cursor mcp 配置文件中添加以下内容来配置 apifox-mcp-server 服务器：
 
