@@ -112,14 +112,14 @@ export class ApiFoxServer {
 
   async connect(transport: Transport): Promise<void> {
     await this.server.connect(transport);
-    console.log("服务器已连接并准备处理请求");
+    console.error("服务器已连接并准备处理请求");
   }
 
   async startHttpServer(port: number): Promise<void> {
     const app = express();
 
     app.get("/sse", async (req: Request, res: Response) => {
-      console.log("SSE连接建立");
+      console.error("SSE连接建立");
       this.sseTransport = new SSEServerTransport(
         "/messages",
         res as unknown as ServerResponse<IncomingMessage>
@@ -139,9 +139,9 @@ export class ApiFoxServer {
     });
 
     app.listen(port, () => {
-      console.log(`HTTP服务器监听端口 ${port}`);
-      console.log(`SSE 端点可用于 http://localhost:${port}/sse`);
-      console.log(
+      console.error(`HTTP服务器监听端口 ${port}`);
+      console.error(`SSE 端点可用于 http://localhost:${port}/sse`);
+      console.error(
         `消息端点可在以下位置访问： http://localhost:${port}/messages`
       );
     });

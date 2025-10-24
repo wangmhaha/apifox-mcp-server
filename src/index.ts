@@ -23,7 +23,7 @@ export async function startServer(): Promise<void> {
     const transport = new StdioServerTransport();
     await server.connect(transport);
   } else {
-    console.log(
+    console.error(
       `初始化HTTP模式下的ApiFox MCP Server服务器在端口 ${config.port}`
     );
     await server.startHttpServer(config.port);
